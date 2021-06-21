@@ -98,7 +98,8 @@ class Cbz2Pdf
       end
 
       reader.close
-    elsif self.archive.extension == ".cbr" # rar extraction fails miserably...
+    elsif self.archive.extension == ".cbr"
+    # rar extraction usually fails miserably with libarchive...
         progress.advance if self.verbose
 
         %x( unrar x -id "#{self.archive.path}" )
@@ -110,15 +111,14 @@ class Cbz2Pdf
 
   def fix_folder()
     if Dir.children(self.archive.destination).count == 1
-      extracted_dir = Dir.children(self.archive.destination).first
-      dest = "#{self.archive.destination}/#{extracted_dir}"
+      extracted_subdir  = Dir.children(self.archive.destination).first
+      wrong_destination = "#{self.archive.destination}/#{extracted_subdir}"
 
-      Dir.new(dest).each_child do |file|
-        FileUtils.mv("#{dest}/#{file}", "#{self.archive.destination}/#{file}")
+      Dir.new(wrong_destination).each_child do |file|
+        FileUtils.mv("#{wrong_destination}/#{file}", "#{self.archive.destination}/#{file}")
       end
 
-
-      FileUtils.remove_dir(dest)
+      FileUtils.remove_dir(wrong_destination)
     end
   end
 
