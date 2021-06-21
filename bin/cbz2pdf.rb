@@ -108,6 +108,21 @@ class Cbz2Pdf
   end
 
 
+  def fix_folder()
+    if Dir.children(self.archive.destination).count == 1
+      extracted_dir = Dir.children(self.archive.destination).first
+      dest = "#{self.archive.destination}/#{extracted_dir}"
+
+      Dir.new(dest).each_child do |file|
+        FileUtils.mv("#{dest}/#{file}", "#{self.archive.destination}/#{file}")
+      end
+
+
+      FileUtils.remove_dir(dest)
+    end
+  end
+
+
   def rearange()
     if self.manga
       progress     = TTY::ProgressBar.new("rearanging [:bar :percent]", total: self.total_files)
@@ -117,18 +132,17 @@ class Cbz2Pdf
         next if self.exclude?(file)
 
         old_path = File.expand_path("#{self.archive.destination}/#{file}")
-        new_path = ""
         filename = ""
 
         progress.advance if self.verbose
 
         if current_file.even?
-          filename  = "%05d#{File.extname(file)}" % [current_file + 1]
+          filename = "%05d#{File.extname(file)}" % [current_file + 1]
         else
           if current_file == 1
-            filename  = "%05d#{File.extname(file)}" % [current_file]
+            filename = "%05d#{File.extname(file)}" % [current_file]
           else
-            filename  = "%05d#{File.extname(file)}" % [current_file - 1]
+            filename = "%05d#{File.extname(file)}" % [current_file - 1]
           end
         end
 
@@ -192,6 +206,7 @@ end
 converter = Cbz2Pdf.new
 converter.parse
 converter.extract
+converter.fix_folder
 converter.count
 converter.rearange
 converter.convert
