@@ -36,5 +36,10 @@ module C2P
         abort
       end
     end
+
+
+    def extractable?
+      return @allowed_extensions.include?(self.extension)
+    end
   end
 end

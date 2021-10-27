@@ -88,7 +88,7 @@ class Cbz2Pdf
     reader   = Archive::Reader.open_filename(self.archive.path)
     progress = TTY::ProgressBar.new("extracting [:bar]", total: nil)
 
-    if self.archive.extension == ".cbz"
+    if self.archive.extractable?
       FileUtils.mkdir_p(self.archive.destination)
 
       reader.each_entry do |entry|
@@ -98,11 +98,6 @@ class Cbz2Pdf
       end
 
       reader.close
-    elsif self.archive.extension == ".cbr"
-    # rar extraction usually fails miserably with libarchive...
-        progress.advance if self.verbose
-
-        %x( unrar x -id "#{self.archive.path}" )
     end
 
     progress.finish if self.verbose
@@ -138,12 +133,10 @@ class Cbz2Pdf
 
         if current_file.even?
           filename = "%05d#{File.extname(file)}" % [current_file + 1]
-        else
-          if current_file == 1
+        elsif current_file == 1
             filename = "%05d#{File.extname(file)}" % [current_file]
-          else
+        else # current_file.odd?
             filename = "%05d#{File.extname(file)}" % [current_file - 1]
-          end
         end
 
         new_path      = File.expand_path("#{self.archive.destination}/#{filename}")
