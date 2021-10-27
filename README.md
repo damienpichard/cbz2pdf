@@ -11,20 +11,12 @@
 
 
 ## Introduction
-[cbz2pdf] is a ruby script that converts `cbz` (and `cbr` with [unrar]) files to `pdf`.
+[cbz2pdf] is a ruby script that converts `cbz` and `cbr` files to `pdf`.
 
 
 
 ## Prerequisite
-If you want to use this script for `cbr` files, please make sure you have `unrar` installed:
-
-``` sh
-$ brew install unrar # On macOS
-$ apt-get install unrar # On Ubuntu
-```
-
-
-In order to convert images into `pdf` this script also requires [img2pdf].
+In order to convert images into `pdf` this script requires [img2pdf].
 
 
 
@@ -43,5 +35,4 @@ $ bundle install # install dependencies
 
 
 [cbz2pdf]: https://github.com/lebidouilleur/cbz2pdf
-[unrar]:   https://www.rarlab.com/
 [img2pdf]: https://github.com/myollie/img2pdf
