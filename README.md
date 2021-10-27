@@ -16,7 +16,7 @@
 
 
 ## Prerequisite
-In order to convert images into `pdf` this script requires [img2pdf].
+This script requires `libarchive` to extract `cbz` and `cbr` files and [img2pdf] to convert images into `pdf`.
 
 
 
