@@ -28,11 +28,11 @@ module C2P
           self.extension   = File.extname(file_path)
           self.destination = File.expand_path("#{self.folder}/#{self.basename}")
         else
-          STDERR.puts "That archive format is not supported."
+          STDERR.puts "cbz2pdf: '#{File.extname(file_path).delete('.')}' format unsupported..."
           abort
         end
       else
-        STDERR.puts "The file does not exists."
+        STDERR.puts "cbz2pdf: #{file_path}: no such file..."
         abort
       end
     end
