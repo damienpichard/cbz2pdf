@@ -159,7 +159,11 @@ class Cbz2Pdf
 
         progress.advance if self.verbose
 
-        %x( img2pdf "#{path}" -o "#{path}.pdf" )
+        if executable('img2pdf')
+          %x( img2pdf "#{path}" -o "#{path}.pdf" )
+        else
+          STDERR.puts "cbz2pdf: executable 'img2pdf' not found..."
+        end
       end
     end
   end
