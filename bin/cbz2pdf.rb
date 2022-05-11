@@ -11,6 +11,7 @@ require 'ffi-libarchive'
 require 'tty-progressbar'
 
 require_relative "archive.rb"
+require_relative "executable?.rb"
 
 
 
@@ -144,6 +145,8 @@ class Cbz2Pdf
 
         FileUtils.mv(old_path, new_path)
       end
+
+      progress.finish if self.verbose
     end
   end
 
@@ -159,13 +162,16 @@ class Cbz2Pdf
 
         progress.advance if self.verbose
 
-        if executable('img2pdf')
+        if executable?('img2pdf')
           %x( img2pdf "#{path}" -o "#{path}.pdf" )
         else
           STDERR.puts "cbz2pdf: executable 'img2pdf' not found..."
+          exit(1)
         end
       end
     end
+
+    progress.finish if self.verbose
   end
 
 
