@@ -1,8 +1,3 @@
-#!/usr/bin/env ruby
-
-
-
-
 module C2P
   class Archive
     attr_accessor :path
